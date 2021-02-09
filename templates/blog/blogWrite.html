@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %} Blog Write {% endblock title %}
+{% block body %}
+<div class="container">
+<h3>add your Blog</h3>
+<form action="/blog/blogWrite" method="post">
+{% csrf_token %}
+  <div class="form-group">
+    <label for="name">title</label>
+    <input type="text" class="form-control" id="title" name="title" aria-describedby="name">
+  </div>
+  <div class="form-group">
+    <label for="email">content</label>
+    <textarea class="form-control" name="content" id="content" cols="30" rows="5"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="phone">Author</label>
+    <input type="phone" class="author" name="author" id="">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+{% endblock body%}
