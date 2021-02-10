@@ -3,17 +3,28 @@ from blog.models import Post
 from django.utils import timezone
 from django.conf import settings 
 from django.core.mail import send_mail 
-from django.conf import settings 
-from django.core.mail import send_mail 
-
-
-
-
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def blogHome(request):
     allPosts = Post.objects.all()
+   
+
+    allPosts = allPosts.all()
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(allPosts, 3)
+    try:
+        allPosts = paginator.page(page)
+    except PageNotAnInteger:
+        allPosts = paginator.page(1)
+    except EmptyPage:
+        allPosts = paginator.page(paginator.num_pages)
+    
+
     context = {'allPosts': allPosts}
     return render(request, 'blog/blogHome.html', context)
+    #return render(request, 'blog/blogHome.html', { 'allPosts': allPosts })
 
 def blogMy(request):
     alluserPosts = Post.objects.filter(author = request.user)
