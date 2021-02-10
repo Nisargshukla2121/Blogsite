@@ -35,6 +35,11 @@
         <li class="nav-item">
           <a class="nav-link" href="/blog">Blog</a>
         </li>
+        {% if user.is_authenticated %}
+      </a>
+      <li class="nav-item">
+        <a class="nav-link" href="/blog/blogMy">MyBlog</a>
+      </li>
        
       </ul>
       <form method="get" action="/search" class="form-inline my-2 my-lg-0">
@@ -42,13 +47,12 @@
           id="query">
         <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">Search</button>
 
-        {% if user.is_authenticated %}
+        
         <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" <a aria-haspopup="true" aria-expanded="false">
           Welcome {{request.user}}
-        </a>
-        
+      
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <a class="dropdown-item" href="/logout">Logout</a>
         </div>

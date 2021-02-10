@@ -15,30 +15,23 @@ def blogHome(request):
     context = {'allPosts': allPosts}
     return render(request, 'blog/blogHome.html', context)
 
+def blogMy(request):
+    alluserPosts = Post.objects.filter(author = request.user)
+    context2 = {'alluserPosts': alluserPosts}
+    return render(request, 'blog/blogMy.html', context2)
+
 
 def blogWrite(request):
     if request.method == "POST":
         title = request.POST['title']
         content = request.POST['content']
-        author = request.POST['author']
-        post = Post(title=title,content=content,author=author,slug=title).save()
-
-            
-        subject = 'welcome to Blogsite'
-        message = f'Hi {myuser.username}, thank you for uploading post in our website.'
-        email_from = settings.EMAIL_HOST_USER 
-        recipient_list = [myuser.email, ]
-        send_mail( subject, message, email_from, recipient_list ) 
+        author = request.user
+        post = Post(title=title,content=content,slug=title,author=author)
+        
+        post.save()  
     return render(request, 'blog/blogWrite.html')
 
 def blogPost(request, slug):
     post = Post.objects.filter(slug=slug).first()
     context = {'post': post}
     return render(request, 'blog/blogPost.html', context)
-
-    
-    
-        
-        
-        
-    

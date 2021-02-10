@@ -58,7 +58,7 @@ def handlesignup(request):
         myuser.first_name = fname
         myuser.last_name = lname
         myuser.save()
-        messages.success(request, "your icoder accound has been successfully created")
+        messages.success(request, "your Blogsite accound has been successfully created")
         
         
         subject = 'welcome to Blogsite'
