@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from blog.models import Post
 from django.conf import settings 
 from django.core.mail import send_mail 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
@@ -43,6 +44,18 @@ def search(request):
     if allPosts.count == 0:
             messages.warning(request, "No search result found. please refine your query")
     params = {'allPosts': allPosts, 'query':query}
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(allPosts, 3)
+    try:
+        allPosts = paginator.page(page)
+    except PageNotAnInteger:
+        allPosts = paginator.page(1)
+    except EmptyPage:
+        allPosts = paginator.page(paginator.num_pages)
+    
+
     return render(request, 'home/search.html',params)
 
 def handlesignup(request):

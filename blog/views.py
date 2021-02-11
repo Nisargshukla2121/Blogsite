@@ -27,10 +27,22 @@ def blogHome(request):
     context = {'allPosts': allPosts}
     return render(request, 'blog/blogHome.html', context)
     #return render(request, 'blog/blogHome.html', { 'allPosts': allPosts })
-@login_required
+@login_required 
 def blogMy(request):
     alluserPosts = Post.objects.filter(author = request.user).order_by('-date_posted')
+   
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(alluserPosts, 3)
+    try:
+        alluserPosts = paginator.page(page)
+    except PageNotAnInteger:
+        alluserPosts = paginator.page(1)
+    except EmptyPage:
+        alluserPosts = paginator.page(paginator.num_pages)
     context2 = {'alluserPosts': alluserPosts}
+ 
+    #return render(request, 'blog/blogHome.html', context2)
     return render(request, 'blog/blogMy.html', context2)
 
 @login_required
@@ -38,7 +50,7 @@ def blogWrite(request):
     if request.method == "POST":
         title = request.POST['title']
         content = request.POST['content']
-        author = request.user.email
+        author = request.user
         post = Post(title=title,content=content,slug=title,author=author)
         
         post.save()  
@@ -46,7 +58,7 @@ def blogWrite(request):
         subject = 'your post added successfyly'
         message = f'Hi {post.author}, Thank you for posting blogs in Blogsite and hoping for some new blog from .you'
         email_from = settings.EMAIL_HOST_USER 
-        recipient_list = [author, ]
+        recipient_list = [author.email, ]
         send_mail( subject, message, email_from, recipient_list ) 
     return render(request, 'blog/blogWrite.html')
 

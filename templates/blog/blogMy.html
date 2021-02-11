@@ -13,17 +13,33 @@
             <h3 class="mb-0">{{post.title}}</h3>
 
   <small class="text-muted">{{ post.date_posted }}
-</small>    
-            <div class="mb-1 text-muted">{{post.datetime}}</div>
-            <p class="card-text mb-auto">{{post.content| truncatechars:100}}</p>
-                <div class="my-2">
-                    
-            <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">Continue reading</a>
-            <button class="btn btn-primary">Edit Blog</button>
-           
+</small>   
+
         </div>
-        
+        {% endfor %} 
     </div>
-    {% endfor %}
-</div>
+   
+
+    {% if alluserPosts.has_other_pages %}
+    <ul class="pagination">
+      {% if alluserPosts.has_previous %}
+        <li><a href="?page={{ alluserPosts.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+      {% endif %}
+      {% for i in alluserPosts.paginator.page_range %}
+        {% if alluserPosts.number == i %}
+          &nbsp;&nbsp;<h1><li class="active"><span>{{ i }} <span class="sr-only">(current)</span></h1></span></li>
+        {% else %}
+         &nbsp; &nbsp; <li><h1><a href="?page={{ i }}">{{ i }}</a></h1></li>
+        {% endif %}
+      {% endfor %}
+      {% if alluserPosts.has_next %}
+        &nbsp; &nbsp; <li><a href="?page={{ alluserPosts.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        &nbsp;&nbsp;<li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+  {% endif %}
+  
 {% endblock body%}
