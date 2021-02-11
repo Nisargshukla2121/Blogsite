@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'django_otp', 
     'django_otp.plugins.otp_totp',
+    
 ]
 
 MIDDLEWARE = [
