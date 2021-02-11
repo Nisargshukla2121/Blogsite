@@ -5,11 +5,10 @@ from django.conf import settings
 from django.core.mail import send_mail 
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 
 def blogHome(request):
-    allPosts = Post.objects.all()
-   
-
+    allPosts = Post.objects.all().order_by('-date_posted')
     allPosts = allPosts.all()
     page = request.GET.get('page', 1)
 
@@ -25,13 +24,13 @@ def blogHome(request):
     context = {'allPosts': allPosts}
     return render(request, 'blog/blogHome.html', context)
     #return render(request, 'blog/blogHome.html', { 'allPosts': allPosts })
-
+@login_required
 def blogMy(request):
-    alluserPosts = Post.objects.filter(author = request.user)
+    alluserPosts = Post.objects.filter(author = request.user).order_by('-date_posted')
     context2 = {'alluserPosts': alluserPosts}
     return render(request, 'blog/blogMy.html', context2)
 
-
+@login_required
 def blogWrite(request):
     if request.method == "POST":
         title = request.POST['title']
@@ -46,3 +45,5 @@ def blogPost(request, slug):
     post = Post.objects.filter(slug=slug).first()
     context = {'post': post}
     return render(request, 'blog/blogPost.html', context)
+
+

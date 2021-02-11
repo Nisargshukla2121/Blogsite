@@ -11,7 +11,8 @@
         <div class="col p-4 d-flex flex-column position-static">
             <strong class="d-inline-block mb-2 text-primary">Article by {{post.author}}</strong>
             <h3 class="mb-0">{{post.title}}</h3>
-            <div class="mb-1 text-muted">{{post.datetime}}</div>
+            <small class="text-muted">{{ post.date_posted }}
+  </small>
             <p class="card-text mb-auto">{{post.content| truncatechars:100}}</p>
                 <div class="my-2">
             <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">Continue reading</a>
@@ -29,15 +30,15 @@
     {% endif %}
     {% for i in allPosts.paginator.page_range %}
       {% if allPosts.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        &nbsp;&nbsp;<h1><li class="active"><span>{{ i }} <span class="sr-only">(current)</span></h1></span></li>
       {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
+       &nbsp; &nbsp; <li><h1><a href="?page={{ i }}">{{ i }}</a></h1></li>
       {% endif %}
     {% endfor %}
     {% if allPosts.has_next %}
-      <li><a href="?page={{ allPosts.next_page_number }}">&raquo;</a></li>
+      &nbsp; &nbsp; <li><a href="?page={{ allPosts.next_page_number }}">&raquo;</a></li>
     {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
+      &nbsp;&nbsp;<li class="disabled"><span>&raquo;</span></li>
     {% endif %}
   </ul>
 {% endif %}
