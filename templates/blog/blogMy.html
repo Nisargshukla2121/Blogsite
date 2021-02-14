@@ -13,9 +13,13 @@
             <h3 class="mb-0">{{post.title}}</h3>
 
   <small class="text-muted">{{ post.date_posted }}
-</small>   
-
-        </div>
+            <a href="/blog/blogMyDelete/{{post.sno}}"> Delete </a>
+            <a href="/blog/blogMyEdit/{{post.sno}}"> Edit </a>
+               
+<a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">Continue reading</a>
+        </small>
+</div>
+        
         {% endfor %} 
     </div>
    

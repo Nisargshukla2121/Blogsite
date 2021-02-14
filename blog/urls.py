@@ -7,4 +7,8 @@ urlpatterns = [
     path('blogMy', views.blogMy, name='blogMy'),
     path('blogWrite', views.blogWrite, name='blogWrite'),
     path('<str:slug>', views.blogPost, name='blogPost'),
+    path('blogMyDelete/<int:sno>', views.blogMyDelete, name='blogMyDelete'),
+    path('blogMyEdit', views.blogMyEdit, name='blogMyEdit'),
+    path('editcode/<int:sno>', views.editcode, name='editcode'),
+
 ]

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} Blog Edit {% endblock title %}
+{% block body %}
+<div class="container">
+<h3>add your Blog</h3>
+<form action="/blog/editcode/" method="post">
+{% csrf_token %}
+
+ <input type="hidden"  name="sno" value="{{post.sno}}">
+  <div class="form-group">
+    <label for="name">title</label>
+    <input type="text" value="{{post.title}}" class="form-control" id="title" name="title" aria-describedby="name">
+  </div>
+  <div class="form-group">
+    <label for="email"></label>
+    <textarea class="form-control" name="content"  id="content" cols="30" rows="5">{{post.content}}</textarea>
+  </div>
+  
+  <div class="form-group">
+    <label for="phone">Author = <b>{{user.get_username}} </b></label> 
+  </div>
+  <small class="text-muted">{{ post.date_posted }}
+  </small>
+  <button type="submit" class="btn btn-primary">Update your Blog</button>
+</form>
+</div>
+{% endblock body%}
