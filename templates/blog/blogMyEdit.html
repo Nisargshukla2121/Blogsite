@@ -4,7 +4,7 @@
 {% block body %}
 <div class="container">
 <h3>add your Blog</h3>
-<form action="/blog/editcode/" method="post">
+<form action="/blog/blogWrite" method="post">
 {% csrf_token %}
 
  <input type="hidden"  name="sno" value="{{post.sno}}">
