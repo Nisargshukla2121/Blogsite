@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.timezone import now
 # Create your models here.
 class Post(models.Model):
     sno=models.AutoField(primary_key=True)
@@ -14,3 +15,5 @@ class Post(models.Model):
     
     def __str__(self):
         return self.title
+
+

@@ -48,7 +48,7 @@ def blogMy(request):
 def blogMyDelete(request,sno):
     post = Post.objects.get(sno=sno)
     post.delete()
-    return HttpResponse("deleted")
+    return redirect('blogMy')
 
 def blogMyEdit(request,sno):
     post = Post.objects.get(sno=sno)
@@ -66,16 +66,16 @@ def editcode(request,sno):
         return render(request, 'blog/blogWrite.html')  
 
 @login_required
-def blogWrite(request,sno):
+def blogWrite(request):
     if request.method == "POST":
         title = request.POST['title']
         content = request.POST['content']
         author = request.user
-        post = Post(title=title,content=content,slug=sno,author=author)
+        post = Post(title=title,content=content,slug=title,author=author)
         
         post.save()  
 
-        subject = 'your post added successfyly'
+        subject = 'your post added successfly'
         message = f'Hi {post.author}, Thank you for posting blogs in Blogsite and hoping for some new blog from .you'
         email_from = settings.EMAIL_HOST_USER 
         recipient_list = [author.email, ]
@@ -86,5 +86,3 @@ def blogPost(request, slug):
     post = Post.objects.filter(slug=slug).first()
     context = {'post': post}
     return render(request, 'blog/blogPost.html', context)
-
-

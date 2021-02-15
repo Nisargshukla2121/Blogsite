@@ -11,12 +11,13 @@
         <div class="col p-4 d-flex flex-column position-static">
             <strong class="d-inline-block mb-2 text-primary">Article by {{user.get_username}}</strong>
             <h3 class="mb-0">{{post.title}}</h3>
+ 
 
-  <small class="text-muted">{{ post.date_posted }}
-            <a href="/blog/blogMyDelete/{{post.sno}}"> Delete </a>
-            <a href="/blog/blogMyEdit/{{post.sno}}"> Edit </a>
-               
+            <small class="text-muted">               
 <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">Continue reading</a>
+{{ post.date_posted }}
+<a href="/blog/blogMyDelete/{{post.sno}}"> Delete </a>
+<a href="/blog/blogMyEdit/{{post.sno}}"> Edit </a>
         </small>
 </div>
         

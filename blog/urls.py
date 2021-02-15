@@ -10,5 +10,4 @@ urlpatterns = [
     path('blogMyDelete/<int:sno>', views.blogMyDelete, name='blogMyDelete'),
     path('blogMyEdit/<int:sno>', views.blogMyEdit, name='blogMyEdit'),
     path('editcode', views.editcode, name='editcode'),
-
 ]
