@@ -1,5 +1,5 @@
-from django.shortcuts import render, HttpResponse
-from blog.models import Post
+from django.shortcuts import render, HttpResponse,redirect
+from blog.models import Post ,BlogComment
 from django.utils import timezone
 from django.conf import settings 
 from django.core.mail import send_mail 
@@ -8,7 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.conf import settings 
 from django.core.mail import send_mail 
-
+from django.contrib import messages
 
 def blogHome(request):
     allPosts = Post.objects.all().order_by('-date_posted')
@@ -48,7 +48,7 @@ def blogMy(request):
 def blogMyDelete(request,sno):
     post = Post.objects.get(sno=sno)
     post.delete()
-    return redirect('blogMy')
+    return render(request, 'blog/blogMy.html')
 
 def blogMyEdit(request,sno):
     post = Post.objects.get(sno=sno)
@@ -82,7 +82,36 @@ def blogWrite(request):
         send_mail( subject, message, email_from, recipient_list ) 
     return render(request, 'blog/blogWrite.html')
 
-def blogPost(request, slug):
-    post = Post.objects.filter(slug=slug).first()
-    context = {'post': post}
-    return render(request, 'blog/blogPost.html', context)
+def blogPost(request, slug): 
+    if request.method == "POST":
+        comment=request.POST.get('comment')
+        user=request.user
+        postSno =request.POST.get('postSno')
+        post= Post.objects.get(sno=postSno)
+        comment=BlogComment(comment= comment, user=user, post=post)
+        comment.save()
+        messages.success(request, "Your comment has been posted successfully")
+        return redirect(f"/blog/{post.slug}")
+    
+    post=Post.objects.filter(slug=slug).first()
+    post.views = post.views + 1 
+    post.save()
+    print(post.views)
+    comments= BlogComment.objects.filter(post=post)
+    context={'post':post, 'comments': comments}
+    return render(request, "blog/blogPost.html", context)
+
+
+"""
+def postComment(request):
+    if request.method == "POST":
+        comment=request.POST.get('comment')
+        user=request.user
+        postSno =request.POST.get('postSno')
+        post= Post.objects.get(sno=postSno)
+        comment=BlogComment(comment= comment, user=user, post=post)
+        comment.save()
+        messages.success(request, "Your comment has been posted successfully")
+        
+    return redirect(f"/blog/{post.slug}")
+"""
