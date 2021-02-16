@@ -16,8 +16,8 @@ class Post(models.Model):
     slug=models.CharField(max_length=130)
     author = models.ForeignKey(User,  on_delete=models.CASCADE, null=True)
     date_posted = models.DateTimeField(default=timezone.now)
-    views = models.IntegerField(default=0)
-   
+    views = models.IntegerField(default=0 ,blank=True)
+    status = models.CharField(max_length=32,choices=STATUS_CHOICES, default="General",blank=True)
   
 def __str__(self):
         return self.title
@@ -34,7 +34,3 @@ class BlogComment(models.Model):
         return self.comment[0:13] + "..." + "by" + " " + self.user.username
 
 
-
-class BlogCategory(models.Model):   
-   # [...]
-   status = models.CharField(max_length=32,choices=STATUS_CHOICES, default="available",)
