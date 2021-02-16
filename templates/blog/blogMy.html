@@ -16,7 +16,8 @@
             <small class="text-muted">               
 <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">Continue reading</a>
 {{ post.date_posted }}
-<a href="/blog/blogMyDelete/{{post.sno}}"> Delete </a>
+<a href="/blog/blogMyDelete/{{post.sno}}" onclick="confirm('Are you sure you want to delete this item')"> Delete </a>
+
 <a href="/blog/blogMyEdit/{{post.sno}}"> Edit </a>
         </small>
 </div>

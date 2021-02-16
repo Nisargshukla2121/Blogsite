@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'django_otp', 
     'django_otp.plugins.otp_totp',
-    'django.contrib.humanize',     
+    'django.contrib.humanize', 
+       
 ]
 
 MIDDLEWARE = [
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

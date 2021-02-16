@@ -48,22 +48,15 @@ def blogMy(request):
 def blogMyDelete(request,sno):
     post = Post.objects.get(sno=sno)
     post.delete()
+    messages.success(request,"Blog Deleted  successfully")
     return render(request, 'blog/blogMy.html')
 
-def blogMyEdit(request,sno):
-    post = Post.objects.get(sno=sno)
-    return render(request,'blog/blogMyEdit.html', {'post':post})
-
-def editcode(request,sno):
-    if request.method == "POST":
-        title = request.POST['title']
-        sno = request.POST['sno']
-        content = request.POST['content']
-        author = request.user
-        contect3 = post.objects.get(sno=sno)
-        post = Post(title=title,content=content,slug=sno,author=author)
-        post.save()
-        return render(request, 'blog/blogWrite.html')  
+def blogMyEdit(request, sno):  
+    post = Post.objects.get(sno=sno)  
+    return render(request,'blogMyEdit.html', {'post':Post})  
+   
+def blogMyUpdate(title,content):
+    post.objects.get(sno=sno).update(field=value)
 
 @login_required
 def blogWrite(request):
@@ -100,18 +93,3 @@ def blogPost(request, slug):
     comments= BlogComment.objects.filter(post=post)
     context={'post':post, 'comments': comments}
     return render(request, "blog/blogPost.html", context)
-
-
-"""
-def postComment(request):
-    if request.method == "POST":
-        comment=request.POST.get('comment')
-        user=request.user
-        postSno =request.POST.get('postSno')
-        post= Post.objects.get(sno=postSno)
-        comment=BlogComment(comment= comment, user=user, post=post)
-        comment.save()
-        messages.success(request, "Your comment has been posted successfully")
-        
-    return redirect(f"/blog/{post.slug}")
-"""
