@@ -59,7 +59,8 @@ def blogMyEdit(request,sno):
         #sno = request.POST['sno']
         content = request.POST['content']
         author = request.user
-        post.update(title=title,sno=sno,content=content,author=author)
+        category = request.POST['category']
+        post.update(title=title,sno=sno,content=content,author=author,category=category)
         return redirect('blogMy')   
     return render(request,'blog/blogMyEdit.html', {'post':post})
 
@@ -75,8 +76,8 @@ def blogWrite(request):
         content = request.POST['content']
         author = request.user
     
-        status = request.POST['status']
-        post = Post(title=title,content=content,slug=title,author=author,status=status)
+        category = request.POST['category']
+        post = Post(title=title,content=content,slug=title,author=author,category=category)
         
         post.save()  
 
@@ -85,7 +86,7 @@ def blogWrite(request):
         email_from = settings.EMAIL_HOST_USER 
         recipient_list = [author.email, ]
         send_mail( subject, message, email_from, recipient_list ) 
-    return render(request, 'blog/blogWrite.html')
+    return redirect('blogMy')
 
 def blogPost(request, slug): 
     if request.method == "POST":

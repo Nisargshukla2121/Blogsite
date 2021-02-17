@@ -65,7 +65,7 @@ def handlesignup(request):
         lname = request.POST['lname']
         email = request.POST['email']
         pass1 = request.POST['pass1']
-   #     pass2 = request.POST['pass2']
+        pass2 = request.POST['pass2']
 
         myuser = User.objects.create_user(username,email, pass1)
         myuser.first_name = fname
