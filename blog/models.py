@@ -4,10 +4,10 @@ from django.utils import timezone
 from django.utils.timezone import now
 
 STATUS_CHOICES = [
-    ('General', 'General blog'),
-    ('Study', "Study blog"),
-    ('Technical', 'Technical Blog'),
-]
+     ('General', 'General blog'),
+     ('Study', "Study blog"),
+     ('Technical', 'Technical Blog'),
+ ]
 # Create your models here.
 class Post(models.Model):
     sno=models.AutoField(primary_key=True)
@@ -17,7 +17,7 @@ class Post(models.Model):
     author = models.ForeignKey(User,  on_delete=models.CASCADE, null=True)
     date_posted = models.DateTimeField(default=timezone.now)
     views = models.IntegerField(default=0 ,blank=True)
-    status = models.CharField(max_length=32,choices=STATUS_CHOICES, default="General",blank=True)
+    status = models.CharField(max_length=32,choices=STATUS_CHOICES)
   
 def __str__(self):
         return self.title

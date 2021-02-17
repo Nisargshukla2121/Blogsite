@@ -74,7 +74,9 @@ def blogWrite(request):
         title = request.POST['title']
         content = request.POST['content']
         author = request.user
-        post = Post(title=title,content=content,slug=title,author=author)
+    
+        status = request.POST['status']
+        post = Post(title=title,content=content,slug=title,author=author,status=status)
         
         post.save()  
 
