@@ -43,9 +43,12 @@
        
       </ul>
       <form method="get" action="/search" class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query"
-          id="query">
-        <button class="btn btn-outline-light my-2 my-sm-0 mr-2" type="submit">Search</button>
+        <div>
+          <input class="form-control mr-sm-2 search_box" type="search" placeholder="Search" aria-label="Search" name="search_box" id="query">
+          <p class="search-box-error" style="color: red;"></p>
+        </div>
+
+        <button class="btn btn-outline-light my-2 my-sm-0 mr-2 btn_search" type="button">Search</button>
 
         
       
@@ -170,6 +173,33 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="/static/js/jquery-3.5.1.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $(".btn_search").on("click", function(event){
+        if ($(".search_box").val() != "" && $(".search_box").val() != null && $(".search_box").val() != undefined){
+          $(".search-box-error").text("");
+          $(".search_box").css({'border': "1px solid #ced4da !important;"});
+          debugger
+
+          $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/search",
+            data: {"query": $(".search_box").val()},
+          }).then(function(response){
+            debugger
+          })
+        }else{
+          $(".search-box-error").text("");
+          $(".search_box").css({'border': "1px solid red"});
+          $(".search-box-error").text("Please enter some value!!!")
+        }
+      })
+    })
+  </script>
 </body>
 
 </html>

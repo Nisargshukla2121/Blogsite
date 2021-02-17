@@ -34,6 +34,14 @@ def contact(request):
     return render(request, 'home/contact.html')
 
 def search(request):
+    import pdb
+    pdb.set_trace()
+    print("1")
+    from django.http import JsonResponse
+    from django.template.loader import render_to_string
+
+    # 
+
     query = request.GET['query']
     if len(query)>78:
         allPosts = Post.object.none()
@@ -41,22 +49,30 @@ def search(request):
         allPostsTitle = Post.objects.filter(title__icontains=query)
         allPostsContent = Post.objects.filter(content__icontains=query)
         allPosts = allPostsTitle.union(allPostsContent)
-    if allPosts.count == 0:
-            messages.warning(request, "No search result found. please refine your query")
-    params = {'allPosts': allPosts, 'query':query}
+    if allPosts.count() != 0:
+        messages.warning(request, "No search result found. please refine your query")
+        
+        params = {'allPosts': allPosts, 'query':query}
 
-    page = request.GET.get('page', 1)
+    
+        page = render_to_string("../templates/blog/blogHome.html", params)
 
-    paginator = Paginator(allPosts, 3)
-    try:
-        allPosts = paginator.page(page)
-    except PageNotAnInteger:
-        allPosts = paginator.page(1)
-    except EmptyPage:
-        allPosts = paginator.page(paginator.num_pages)
+        return JsonResponse({'status': 'success', 'response': page})
+    else:
+        return JsonResponse({'status': 'fail'})
+
+    # page = request.GET.get('page', 1)
+
+    # paginator = Paginator(allPosts, 3)
+    # try:
+    #     allPosts = paginator.page(page)
+    # except PageNotAnInteger:
+    #     allPosts = paginator.page(1)
+    # except EmptyPage:
+    #     allPosts = paginator.page(paginator.num_pages)
     
 
-    return render(request, 'home/search.html',params)
+    # return render(request, 'home/search.html',params)
 
 def handlesignup(request):
     if request.method == 'POST':
