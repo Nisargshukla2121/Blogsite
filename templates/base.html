@@ -182,7 +182,7 @@
         if ($(".search_box").val() != "" && $(".search_box").val() != null && $(".search_box").val() != undefined){
           $(".search-box-error").text("");
           $(".search_box").css({'border': "1px solid #ced4da !important;"});
-          debugger
+          //debugger
 
           $.ajax({
             type: "GET",
@@ -191,6 +191,7 @@
             data: {"query": $(".search_box").val()},
           }).then(function(response){
             debugger
+            document.querySelector('html').innerText = response.response;
           })
         }else{
           $(".search-box-error").text("");

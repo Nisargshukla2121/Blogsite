@@ -19,8 +19,13 @@ class Post(models.Model):
     views = models.IntegerField(default=0 ,blank=True)
     category = models.CharField(max_length=32,choices=CATEGORY_CHOICES)
   
-def __str__(self):
-        return self.title
+
+
+    def __str__(self):
+        return self.title 
+
+
+
 
 class BlogComment(models.Model):
     sno= models.AutoField(primary_key=True)

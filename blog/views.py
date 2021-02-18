@@ -64,10 +64,10 @@ def blogMyEdit(request,sno):
         return redirect('blogMy')   
     return render(request,'blog/blogMyEdit.html', {'post':post})
 
-def editcode(request,sno):
-    if request.method == "POST":
+# def editcode(request,sno):
+#     if request.method == "POST":
        
-        return render(request, 'blog/blogWrite.html')  
+#         return render(request, 'blog/blogWrite.html')  
 
 @login_required
 def blogWrite(request):
@@ -86,7 +86,8 @@ def blogWrite(request):
         email_from = settings.EMAIL_HOST_USER 
         recipient_list = [author.email, ]
         send_mail( subject, message, email_from, recipient_list ) 
-    return redirect('blogMy')
+    return render(request, 'blog/blogWrite.html')
+
 
 def blogPost(request, slug): 
     if request.method == "POST":

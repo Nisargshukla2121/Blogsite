@@ -40,26 +40,38 @@ def search(request):
     from django.http import JsonResponse
     from django.template.loader import render_to_string
 
-    # 
+    params = {'allPosts': [], 'query': ""}
 
-    query = request.GET['query']
-    if len(query)>78:
-        allPosts = Post.object.none()
-    else:
-        allPostsTitle = Post.objects.filter(title__icontains=query)
-        allPostsContent = Post.objects.filter(content__icontains=query)
-        allPosts = allPostsTitle.union(allPostsContent)
-    if allPosts.count() != 0:
-        messages.warning(request, "No search result found. please refine your query")
-        
-        params = {'allPosts': allPosts, 'query':query}
+    query = ""
+    if 'query' in request.GET:
+        query = request.GET["query"]
+    elif not query and "search_box" in request.GET:
+        query = request.GET["search_box"]
 
-    
+    if query:
+        if len(query)>78:
+            allPosts = Post.object.none()
+        else:
+            allPostsTitle = Post.objects.filter(title__icontains=query)
+            allPostsContent = Post.objects.filter(content__icontains=query)
+            allPosts = allPostsTitle.union(allPostsContent)
+        if allPosts.count() != 0:
+            messages.warning(request, "No search result found. please refine your query")
+            params = {'allPosts': allPosts, 'query':query}
+
         page = render_to_string("../templates/blog/blogHome.html", params)
 
         return JsonResponse({'status': 'success', 'response': page})
     else:
-        return JsonResponse({'status': 'fail'})
+        import pdb; pdb.set_trace()
+        allPosts = Post.objects.all()
+        params = {'allPosts': allPosts, 'query':query}
+
+        page = render_to_string("../templates/blog/blogHome.html", params)
+
+        return JsonResponse({'status': 'success', 'response': page})
+
+        # return JsonResponse({'status': 'fail'})
 
     # page = request.GET.get('page', 1)
 
