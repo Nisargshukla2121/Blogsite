@@ -7,7 +7,9 @@ from blog.models import Post
 from django.conf import settings 
 from django.core.mail import send_mail 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+    
 
 
 
@@ -34,44 +36,32 @@ def contact(request):
     return render(request, 'home/contact.html')
 
 def search(request):
-    import pdb
-    pdb.set_trace()
-    print("1")
-    from django.http import JsonResponse
-    from django.template.loader import render_to_string
+    # import pdb
+    # pdb.set_trace()
+    # print("1")
+    
 
-    params = {'allPosts': [], 'query': ""}
+    query = request.GET['query']
+    if len(query)>78:
+        allPosts = Post.object.none()
+    else:
+        allPostsTitle = Post.objects.filter(title__icontains=query)
+        allPostsContent = Post.objects.filter(content__icontains=query)
+        allPosts = allPostsTitle.union(allPostsContent)
+    
+    if allPosts.count() != 0:
+       
+        params = {'allPosts': allPosts, 'query':query}
 
-    query = ""
-    if 'query' in request.GET:
-        query = request.GET["query"]
-    elif not query and "search_box" in request.GET:
-        query = request.GET["search_box"]
-
-    if query:
-        if len(query)>78:
-            allPosts = Post.object.none()
-        else:
-            allPostsTitle = Post.objects.filter(title__icontains=query)
-            allPostsContent = Post.objects.filter(content__icontains=query)
-            allPosts = allPostsTitle.union(allPostsContent)
-        if allPosts.count() != 0:
-            messages.warning(request, "No search result found. please refine your query")
-            params = {'allPosts': allPosts, 'query':query}
-
-        page = render_to_string("../templates/blog/blogHome.html", params)
+    
+        page = render_to_string("../templates/include/blogSearch.html", params)
 
         return JsonResponse({'status': 'success', 'response': page})
     else:
-        import pdb; pdb.set_trace()
-        allPosts = Post.objects.all()
-        params = {'allPosts': allPosts, 'query':query}
-
-        page = render_to_string("../templates/blog/blogHome.html", params)
-
-        return JsonResponse({'status': 'success', 'response': page})
-
-        # return JsonResponse({'status': 'fail'})
+        messages.warning(request, "No search result found. please refine your query")
+        
+        return JsonResponse({'status': 'fail'})
+      
 
     # page = request.GET.get('page', 1)
 
@@ -131,3 +121,5 @@ def handleLogout(request):
         logout(request)
         messages.success(request,"successfully logout")
         return redirect('home')
+
+

@@ -1,47 +1,10 @@
 {% extends 'base.html' %}
 
+
 {% block title %} BlogHome {% endblock title %}
 
 {% block body %}
-<div class="container my-3">
-    <h2>Coding Articles by Blogsite:</h2>
-    {% for post in allPosts %}
-    
-    <div class=" border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-            <strong class="d-inline-block mb-2 text-primary">Article by {{post.author}}</strong>
-            <h3 class="mb-0">{{post.title}}</h3>
-            <small class="text-muted">{{ post.date_posted }}
-  </small>
-            <p class="card-text mb-auto">{{post.content| truncatechars:100}}</p>
-                <div class="my-2">
-                  <p>views: {{post.views}} </p>
-            <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">Continue reading</a>
-        </div>
-        
-    </div>
-    {% endfor %}
-</div>
-{% if allPosts.has_other_pages %}
-  <ul class="pagination">
-    {% if allPosts.has_previous %}
-      <li><a href="?page={{ allPosts.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in allPosts.paginator.page_range %}
-      {% if allPosts.number == i %}
-        &nbsp;&nbsp;<h1><li class="active"><span>{{ i }} <span class="sr-only">(current)</span></h1></span></li>
-      {% else %}
-       &nbsp; &nbsp; <li><h1><a href="?page={{ i }}">{{ i }}</a></h1></li>
-      {% endif %}
-    {% endfor %}
-    {% if allPosts.has_next %}
-      &nbsp; &nbsp; <li><a href="?page={{ allPosts.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      &nbsp;&nbsp;<li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
-{% endif %}
+
+  {% include "include/blogSearch.html" %}
 
 {% endblock body%}

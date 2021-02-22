@@ -190,8 +190,8 @@
             url: "/search",
             data: {"query": $(".search_box").val()},
           }).then(function(response){
-            debugger
-            document.querySelector('html').innerText = response.response;
+            //debugger
+            $(".search-result").html(response.response)
           })
         }else{
           $(".search-box-error").text("");

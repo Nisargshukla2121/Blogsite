@@ -11,6 +11,7 @@ from django.core.mail import send_mail
 from django.contrib import messages
 
 def blogHome(request):
+
     allPosts = Post.objects.all().order_by('-date_posted')
     allPosts = allPosts.all()
     page = request.GET.get('page', 1)
@@ -25,10 +26,11 @@ def blogHome(request):
     
 
     context = {'allPosts': allPosts}
-    return render(request, 'blog/blogHome.html', context)
+    return render(request, '../templates/blog/blogHome.html', context)
     #return render(request, 'blog/blogHome.html', { 'allPosts': allPosts })
 @login_required 
 def blogMy(request):
+
     alluserPosts = Post.objects.filter(author = request.user)
    
     page = request.GET.get('page', 1)
@@ -43,12 +45,13 @@ def blogMy(request):
     context2 = {'alluserPosts': alluserPosts}
  
     #return render(request, 'blog/blogHome.html', context2)
-    return render(request, 'blog/blogMy.html', context2)
+    return render(request, '../templates/blog/blogMy.html', context2)
 
 def blogMyDelete(request,sno):
     post = Post.objects.get(sno=sno)
     post.delete()
-    return render(request, 'blog/blogMy.html')
+    #return render(request, 'blog/blogMy.html')
+    return redirect('blogMy')
 
 def blogMyEdit(request,sno):
     post = Post.objects.get(sno=sno)
@@ -60,9 +63,9 @@ def blogMyEdit(request,sno):
         content = request.POST['content']
         author = request.user
         category = request.POST['category']
-        post.update(title=title,sno=sno,content=content,author=author,category=category)
+        post.update(title=title,slug=title,sno=sno,content=content,author=author,category=category)
         return redirect('blogMy')   
-    return render(request,'blog/blogMyEdit.html', {'post':post})
+    return render(request,'../templates/blog/blogMyEdit.html', {'post':post})
 
 # def editcode(request,sno):
 #     if request.method == "POST":
@@ -86,7 +89,7 @@ def blogWrite(request):
         email_from = settings.EMAIL_HOST_USER 
         recipient_list = [author.email, ]
         send_mail( subject, message, email_from, recipient_list ) 
-    return render(request, 'blog/blogWrite.html')
+    return render(request, '../templates/blog/blogWrite.html')
 
 
 def blogPost(request, slug): 
@@ -106,7 +109,7 @@ def blogPost(request, slug):
     print (post.views)
     comments= BlogComment.objects.filter(post=post)
     context={'post':post, 'comments': comments}
-    return render(request, "blog/blogPost.html", context)
+    return render(request, "../templates/blog/blogPost.html", context)
 
 
 """

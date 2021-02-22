@@ -4,9 +4,9 @@ from django.utils import timezone
 from django.utils.timezone import now
 
 CATEGORY_CHOICES = [
-     ('General', 'General blog'),
-     ('Study', "Study blog"),
-     ('Technical', 'Technical Blog'),
+     ('Generalblog', 'General blog'),
+     ('Studyblog', "Study blog"),
+     ('Technicalblog', 'Technical Blog'),
  ]
 # Create your models here.
 class Post(models.Model):
@@ -22,7 +22,7 @@ class Post(models.Model):
 
 
     def __str__(self):
-        return self.title 
+        return self.title  + "..." + "in" + " " + self.category
 
 
 
