@@ -13,13 +13,15 @@ from django.template.loader import render_to_string
 
 
 
-# Create your views here.
+#home page
 def home(request):
     return render(request, 'home/home.html')
 
+#about page
 def about(request):
     return render(request, 'home/about.html')
 
+#contact page
 def contact(request):
     if request.method=='POST':
         name = request.POST['name']
@@ -35,11 +37,8 @@ def contact(request):
 
     return render(request, 'home/contact.html')
 
+#Blog Searching 
 def search(request):
-    # import pdb
-    # pdb.set_trace()
-    # print("1")
-    
 
     query = request.GET['query']
     if len(query)>78:
@@ -63,19 +62,20 @@ def search(request):
         return JsonResponse({'status': 'fail'})
       
 
-    # page = request.GET.get('page', 1)
+    page = request.GET.get('page', 1)
 
-    # paginator = Paginator(allPosts, 3)
-    # try:
-    #     allPosts = paginator.page(page)
-    # except PageNotAnInteger:
-    #     allPosts = paginator.page(1)
-    # except EmptyPage:
-    #     allPosts = paginator.page(paginator.num_pages)
+    paginator = Paginator(allPosts, 3)
+    try:
+        allPosts = paginator.page(page)
+    except PageNotAnInteger:
+        allPosts = paginator.page(1)
+    except EmptyPage:
+        allPosts = paginator.page(paginator.num_pages)
     
 
     # return render(request, 'home/search.html',params)
 
+#signup 
 def handlesignup(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -102,6 +102,7 @@ def handlesignup(request):
     else:
         return HttpResponse('404 - Not found')
 
+#login 
 def handleLogin(request):
     if request.method == 'POST':
         loginusername = request.POST['loginusername']
@@ -117,6 +118,7 @@ def handleLogin(request):
 
     return HttpResponse('404- Not Found')
 
+#logout
 def handleLogout(request):
         logout(request)
         messages.success(request,"successfully logout")

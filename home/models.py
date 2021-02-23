@@ -1,8 +1,6 @@
 from django.db import models
 
-# Create your models here.
-# Database -->Exel workbook
-# Model In Django ---> Table ----> sheet
+#contact
 class Contact(models.Model):
     sno=models.AutoField(primary_key=True)
     name=models.CharField(max_length=200)

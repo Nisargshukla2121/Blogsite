@@ -9,6 +9,4 @@ urlpatterns = [
     path('<str:slug>', views.blogPost, name='blogPost'),
     path('blogMyDelete/<int:sno>', views.blogMyDelete, name='blogMyDelete'),
     path('blogMyEdit/<int:sno>', views.blogMyEdit, name='blogMyEdit'),
-    #path('blogMyUpdate', views.blogMyUpdate, name='blogMyUpdate'),
-    #path('postComment', views.postComment, name="postComment"),
 ]
